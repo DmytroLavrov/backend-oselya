@@ -1,0 +1,25 @@
+import express from 'express';
+
+import { loginValidation, registerValidation } from '../validations/auth.js';
+import handleValidationErrors from '../validations/handleValidationErrors.js';
+
+import checkAuth from '../utils/checkAuth.js';
+import * as UserController from '../controllers/UserController.js';
+
+const router = express.Router();
+
+router.post(
+  '/auth/login',
+  loginValidation,
+  handleValidationErrors,
+  UserController.login
+);
+router.post(
+  '/auth/register',
+  registerValidation,
+  handleValidationErrors,
+  UserController.register
+);
+router.get('/auth/me', checkAuth, UserController.getMe);
+
+export default router;
