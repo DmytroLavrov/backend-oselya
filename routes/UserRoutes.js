@@ -20,6 +20,12 @@ router.post(
   handleValidationErrors,
   UserController.register
 );
+router.post(
+  '/auth/admin',
+  loginValidation,
+  handleValidationErrors,
+  UserController.adminLogin
+);
 router.get('/auth/me', checkAuth, UserController.getMe);
 
 export default router;

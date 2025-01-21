@@ -16,9 +16,19 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     avatarUrl: String,
+    cartData: {
+      type: Object,
+      default: {},
+    },
+    // role: {
+    //   type: String,
+    //   enum: ['user', 'admin'],
+    //   default: 'user',
+    // },
   },
   {
-    timestamps: true,
+    // timestamps: true,
+    minimize: false,
   }
 );
 

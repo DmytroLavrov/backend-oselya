@@ -83,6 +83,27 @@ export const login = async (req, res) => {
   }
 };
 
+export const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, 'simpleSecretKey123');
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: 'Invalid credentials' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: 'An error occurred during admin login. Please try again later.',
+    });
+  }
+};
+
 export const getMe = async (req, res) => {
   try {
     const user = await UserModel.findById(req.userId);

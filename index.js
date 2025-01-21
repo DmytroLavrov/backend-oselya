@@ -1,8 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
+import connectCloudinary from './cloudinary.js';
 
 import UserRoutes from './routes/UserRoutes.js';
+import ProductRoutes from './routes/ProductRoutes.js';
+// import CartRoutes from './routes/CartRoutes.js';
+// import OrderRoutes from './routes/OrderRoutes.js';
 
 dotenv.config();
 
@@ -16,12 +22,18 @@ mongoose
 
 const app = express();
 
+// cloudinary
+connectCloudinary();
+
 // middleware
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
 // routes
 app.use(UserRoutes);
+app.use(ProductRoutes);
+// app.use(CartRoutes); // додаємо маршрути для кошику
+// app.use(OrderRoutes);
 
 app.listen(port, (err) => {
   if (err) {
