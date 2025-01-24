@@ -41,10 +41,10 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   try {
-    // const product = await ProductModel.findById(req.params.id);
+    const product = await ProductModel.findById(req.params.id);
 
-    const { productId } = req.body; // ID передається в тілі запиту
-    const product = await ProductModel.findById(productId);
+    // const { productId } = req.body; // ID передається в тілі запиту
+    // const product = await ProductModel.findById(productId);
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found.' });

@@ -28,6 +28,8 @@ export const register = async (req, res) => {
       }
     );
 
+    res.setHeader('Authorization', token);
+
     const { passwordHash, ...userData } = user._doc;
 
     res.json({ ...userData, token });
@@ -71,6 +73,8 @@ export const login = async (req, res) => {
         expiresIn: '30d',
       }
     );
+
+    res.setHeader('Authorization', token);
 
     const { passwordHash, ...userData } = user._doc;
 

@@ -21,8 +21,8 @@ router.post(
 router.get('/products', ProductController.getProducts);
 
 // Get a specific product
-// router.get('/products/:id', ProductController.getProduct);
-router.post('/products/getProduct', ProductController.getProduct);
+router.get('/products/:id', ProductController.getProduct);
+// router.post('/products/getProduct', ProductController.getProduct);
 
 // Update a product
 // router.put(
