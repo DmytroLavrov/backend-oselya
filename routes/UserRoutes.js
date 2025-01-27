@@ -3,7 +3,7 @@ import express from 'express';
 import { loginValidation, registerValidation } from '../validations/auth.js';
 import handleValidationErrors from '../validations/handleValidationErrors.js';
 
-import checkAuth from '../utils/checkAuth.js';
+import checkAuth from '../middleware/checkAuth.js';
 import * as UserController from '../controllers/UserController.js';
 
 const router = express.Router();

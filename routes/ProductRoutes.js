@@ -4,8 +4,8 @@ import express from 'express';
 
 import * as ProductController from '../controllers/ProductController.js';
 
-import adminAuth from '../utils/adminAuth.js';
-import upload from '../utils/multer.js';
+import adminAuth from '../middleware/adminAuth.js';
+import upload from '../middleware/multer.js';
 
 const router = express.Router();
 
