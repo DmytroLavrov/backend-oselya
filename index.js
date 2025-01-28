@@ -8,7 +8,7 @@ import connectCloudinary from './cloudinary.js';
 import UserRoutes from './routes/UserRoutes.js';
 import ProductRoutes from './routes/ProductRoutes.js';
 import CartRoutes from './routes/CartRoutes.js';
-// import OrderRoutes from './routes/OrderRoutes.js';
+import OrderRoutes from './routes/OrderRoutes.js';
 
 dotenv.config();
 
@@ -33,7 +33,7 @@ app.use(cors());
 app.use(UserRoutes);
 app.use(ProductRoutes);
 app.use(CartRoutes);
-// app.use(OrderRoutes);
+app.use(OrderRoutes);
 
 app.listen(port, (err) => {
   if (err) {

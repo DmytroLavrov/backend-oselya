@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import cloudinary from 'cloudinary';
 
 import UserModel from '../models/User.js';
 
@@ -11,7 +12,7 @@ export const register = async (req, res) => {
 
     const doc = new UserModel({
       email: req.body.email,
-      name: req.body.name,
+      login: req.body.login,
       avatarUrl: req.body.avatarUrl,
       passwordHash: hash,
     });
@@ -125,6 +126,71 @@ export const getMe = async (req, res) => {
     console.error(err);
     res.status(500).json({
       message: 'Access Denied',
+    });
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const image = req.file ? req.file.path : '';
+
+    let updatedAvatarUrl = '';
+
+    if (req.file) {
+      const cloudinaryUpload = await cloudinary.uploader.upload(image);
+      updatedAvatarUrl = cloudinaryUpload.url;
+    }
+
+    await UserModel.updateOne({ _id: userId }, { avatarUrl: updatedAvatarUrl });
+
+    const updatedUser = await UserModel.findById(userId);
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Failed to change avatar',
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { login, email, password } = req.body;
+
+    // Перевірка, чи існує користувач з вказаною електронною поштою
+    if (email) {
+      const existingUser = await UserModel.findOne({ email });
+
+      // Якщо знайдено користувача з такою поштою, і це не поточний користувач
+      if (existingUser && existingUser._id.toString() !== userId) {
+        return res.status(400).json({
+          message: 'The email is already in use by another account',
+        });
+      }
+    }
+
+    // Оновлення пароля, якщо він наданий
+    let updatedData = {};
+    if (login) updatedData.login = login;
+    if (email) updatedData.email = email;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updatedData.passwordHash = await bcrypt.hash(password, salt);
+    }
+
+    // Оновлення користувача в базі даних
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+    });
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Failed to update user details',
     });
   }
 };

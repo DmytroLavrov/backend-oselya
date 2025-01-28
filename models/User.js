@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema(
   {
-    name: {
+    login: {
       type: String,
       required: true,
     },
@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
     // },
   },
   {
-    // timestamps: true,
+    timestamps: true,
     minimize: false,
   }
 );
