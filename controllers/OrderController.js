@@ -43,7 +43,15 @@ export const placeOrderStripe = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-  } catch (err) {}
+    const orders = await OrderModel.find({});
+    res.json({ success: true, orders });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong, please try again later',
+    });
+  }
 };
 
 export const getOrdersByUser = async (req, res) => {
@@ -64,5 +72,17 @@ export const getOrdersByUser = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
   try {
-  } catch (err) {}
+    const { orderId, status } = req.body;
+
+    console.log(orderId, status);
+
+    await OrderModel.findByIdAndUpdate(orderId, { status });
+    res.json({ success: true, message: 'Status Updated' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong, please try again later',
+    });
+  }
 };

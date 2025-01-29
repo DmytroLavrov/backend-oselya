@@ -13,7 +13,7 @@ import checkAuth from '../middleware/checkAuth.js';
 
 const router = express.Router();
 
-router.get('/orders/get', adminAuth, getAllOrders);
+router.post('/orders/get', adminAuth, getAllOrders);
 router.post('/orders/status', adminAuth, updateOrderStatus);
 
 router.post('/orders/place', checkAuth, placeOrder);
