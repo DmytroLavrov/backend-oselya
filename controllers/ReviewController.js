@@ -121,4 +121,21 @@ const deleteReview = async (req, res) => {
   }
 };
 
-export { createReview, getProductReviews, deleteReview };
+const getUserReviews = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const reviews = await ReviewModel.find({ userId })
+      .populate('productId', ['name', 'image', 'price'])
+      .sort({ createdAt: -1 });
+
+    res.json(reviews);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Failed to get user reviews',
+    });
+  }
+};
+
+export { createReview, getProductReviews, deleteReview, getUserReviews };
