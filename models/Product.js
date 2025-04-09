@@ -14,7 +14,7 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String, // type: Array
+    type: String,
     required: true,
   },
   category: {
@@ -25,14 +25,14 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // ratingValue: {
-  //   type: Number,
-  //   required: true,
-  // },
-  // ratingCount: {
-  //   type: Number,
-  //   required: true,
-  // },
+  ratingValue: {
+    type: Number,
+    default: 0,
+  },
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // const ProductModel = mongoose.models.product ||  mongoose.model('Product', ProductSchema);
