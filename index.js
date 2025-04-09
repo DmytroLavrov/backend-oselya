@@ -9,6 +9,7 @@ import UserRoutes from './routes/UserRoutes.js';
 import ProductRoutes from './routes/ProductRoutes.js';
 import CartRoutes from './routes/CartRoutes.js';
 import OrderRoutes from './routes/OrderRoutes.js';
+import ReviewRoutes from './routes/ReviewRoutes.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(UserRoutes);
 app.use(ProductRoutes);
 app.use(CartRoutes);
 app.use(OrderRoutes);
+app.use(ReviewRoutes);
 
 app.listen(port, (err) => {
   if (err) {
