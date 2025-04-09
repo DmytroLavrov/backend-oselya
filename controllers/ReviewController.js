@@ -14,6 +14,15 @@ const createReview = async (req, res) => {
       });
     }
 
+    const existingReview = await ReviewModel.findOne({ productId, userId });
+
+    if (existingReview) {
+      return res.status(400).json({
+        message:
+          'You have already reviewed this product. You can only leave one review per product.',
+      });
+    }
+
     const review = new ReviewModel({
       productId,
       userId,
