@@ -64,4 +64,52 @@ const getProductReviews = async (req, res) => {
   }
 };
 
-export { createReview, getProductReviews };
+const deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const review = await ReviewModel.findById(id);
+
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    if (review.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: 'Not authorized to delete this review' });
+    }
+
+    const { productId } = review;
+
+    await ReviewModel.findByIdAndDelete(id);
+
+    const productReviews = await ReviewModel.find({ productId });
+
+    if (productReviews.length > 0) {
+      const averageRating =
+        productReviews.reduce((acc, review) => acc + review.rating, 0) /
+        productReviews.length;
+
+      await ProductModel.findByIdAndUpdate(productId, {
+        ratingValue: averageRating,
+        ratingCount: productReviews.length,
+      });
+    } else {
+      await ProductModel.findByIdAndUpdate(productId, {
+        ratingValue: 0,
+        ratingCount: 0,
+      });
+    }
+
+    res.json({ success: true, reviewId: id, productId });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Failed to delete review',
+    });
+  }
+};
+
+export { createReview, getProductReviews, deleteReview };
